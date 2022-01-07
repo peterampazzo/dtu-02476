@@ -17,17 +17,17 @@ https://www.kaggle.com/grassknoted/asl-alphabet
 
 > General description:
 
-The data set is a collection of images of alphabets from the American Sign Language, separated in 29 folders which represent the various classes.
+The data set is a collection of images of hands signing the American Sign Language alphabet, separated in 29 folders which represent the various classes.
 
 > Size:
 
-* Train data: 87,000 images which are 200x200 pixels
-* Test data: 29 images 
+* Train data: 87,000 images, 200x200 pixels each.
+* Test data: 29 images. 
 
 > Classes:
 
-* 26 for the letters A-Z
-* 3 classes for SPACE, DELETE and NOTHING
+* 26 for the letters A-Z.
+* 3 classes for SPACE, DELETE and NOTHING.
 
 ### What deep learning models do you expect to use
 
