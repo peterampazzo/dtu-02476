@@ -1,5 +1,4 @@
 # 02476 MLOps Project
-==============================
 
 ### Overall goal of the project
 The main goal of this project is to apply what we have learned in this course about MLOps to a simple machine/deep learning problem. We aim to make our whole pipeline as understandable and efficient as possible, using the tools we have been given - having good and clear structure and setup, adding comments to the code to make it easier to understand and so on. We will tackle an image classification problem and try to get as good results as possible, given our timeframe.
@@ -37,10 +36,11 @@ We will use mostly CNN (convolutional neural networks). Our focus will be on the
 ## Development
 
 Create a new conda enviroment by running: `conda env create --file=environment.yml`.
+
 Therefore, enable it: `conda activate mlops`.
 
 ## Project Organization
-------------
+
 
     ├── LICENSE
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
@@ -87,8 +87,6 @@ Therefore, enable it: `conda activate mlops`.
     │
     └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
 
-
---------
 
 ## Authors
 
