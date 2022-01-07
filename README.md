@@ -7,31 +7,31 @@ The main goal of this project is to apply what we have learned in this course ab
 It was decided to use the [Kornia](https://github.com/kornia/kornia) framework as it was deemed the best suited for this project which involves image classification.
 
 ### How to you intend to include the framework into your project
-The main purpose of the Kornia framework in this project is data augmentation. The goal is to obtain a larger dataset, adding transformed images to the dataset we have already. Specifically, the focus is on the augmentation, the color, and the enhance modules of Kornia as these will provide all the necessary functions to manipulate the images (i.e. rotating, scaling, normalizing, etc.).
+The main purpose of the Kornia framework in this project is [data augmentation](https://kornia.readthedocs.io/en/latest/applications/image_augmentations.html). The goal is to obtain a larger dataset, adding transformed images to the dataset we have already. Specifically, the focus is on the augmentation, the color, and the enhance modules of Kornia as these will provide all the necessary functions to manipulate the images (i.e. rotating, scaling, normalizing, etc.).
 
 ### What data are you going to run on
 
-> Kaggle link :
+> Kaggle link:
 
 https://www.kaggle.com/grassknoted/asl-alphabet
 
-> General description :
+> General description:
 
 The data set is a collection of images of alphabets from the American Sign Language, separated in 29 folders which represent the various classes.
 
-> Size :
+> Size:
 
-- Train data : 87,000 images which are 200x200 pixels
-- Test data : 29 images 
+* Train data: 87,000 images which are 200x200 pixels
+* Test data: 29 images 
 
-> Classes :
+> Classes:
 
- -  26 for the letters A-Z
--  3 classes for SPACE, DELETE and NOTHING
+* 26 for the letters A-Z
+* 3 classes for SPACE, DELETE and NOTHING
 
 ### What deep learning models do you expect to use
 
-We will use mostly CNN (convolutional neural networks). Our focus will be on the overall architecture and parameters of our network (number of layers, padding, strides, max-pooling ...).
+We will use mostly CNN (convolutional neural networks). Our focus will be on the overall architecture and parameters of our network (number of layers, padding, strides, max-pooling etc.).
 
 ## Authors
 
