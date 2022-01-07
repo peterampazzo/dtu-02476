@@ -11,7 +11,27 @@ The main purpose of the Kornia framework in this project is data augmentation. T
 
 ### What data are you going to run on
 
+> Kaggle link :
+
+https://www.kaggle.com/grassknoted/asl-alphabet
+
+> General description :
+
+The data set is a collection of images of alphabets from the American Sign Language, separated in 29 folders which represent the various classes.
+
+> Size :
+
+- Train data : 87,000 images which are 200x200 pixels
+- Test data : 29 images 
+
+> Classes :
+
+ -  26 for the letters A-Z
+-  3 classes for SPACE, DELETE and NOTHING
+
 ### What deep learning models do you expect to use
+
+We will use mostly CNN (convolutional neural networks). Our focus will be on the overall architecture and parameters of our network (number of layers, padding, strides, max-pooling ...).
 
 ## Authors
 
