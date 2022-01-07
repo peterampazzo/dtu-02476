@@ -2,7 +2,11 @@
 
 ### Overall goal of the project
 
+The goal of this project is to apply MLOps best practices and tools to a Deep learning project.
+
 ### What framework are you going to use
+
+Kornia
 
 ### How to you intend to include the framework into your project
 
