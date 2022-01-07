@@ -3,7 +3,12 @@ dtu-02476
 
 A short description of the project.
 
-Project Organization
+### Development
+
+Create a new conda enviroment by running: `conda env create --file=environment.yml`.
+Therefore, enable it: `conda activate mlops`.
+
+### Project Organization
 ------------
 
     ├── LICENSE
