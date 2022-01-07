@@ -6,7 +6,7 @@ The goal of this project is to apply MLOps best practices and tools to a Deep le
 
 ### What framework are you going to use
 
-Kornia
+[Kornia](https://github.com/kornia/kornia)
 
 ### How to you intend to include the framework into your project
 
