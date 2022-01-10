@@ -4,6 +4,31 @@ import logging
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 
+import torch
+
+class ASLDataset(Dataset):
+    """American Sign Language dataset."""
+
+    def __init__(self, root_dir, transform=None):
+        """
+        Args:
+            root_dir (string): Directory with all the images.
+            transform (callable, optional): Optional transform to be applied
+                on a sample.
+        """
+        self.root_dir = root_dir
+        self.transform = transform
+
+    def __len__(self): #not sure we will need this
+        pass
+
+    def __getitem__(self, idx):
+        sample = None #TODO
+
+        if self.transform:
+            sample = self.transform(sample)
+
+        return sample
 
 @click.command()
 @click.argument('input_filepath', type=click.Path(exists=True))
