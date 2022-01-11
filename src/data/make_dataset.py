@@ -3,32 +3,34 @@ import click
 import logging
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
+import torch
+import torchvision
+from torchvision import transforms, datasets 
 
 import torch
 
-class ASLDataset(Dataset):
-    """American Sign Language dataset."""
+def load_data(root_dir: str, output_filepath: str) -> None:
+    test_size = 0.2
+    data_transforms = transforms.Compose([
+        transforms.Resize(224),
+        transforms.ToTensor()
+    ])
 
-    def __init__(self, root_dir, transform=None):
-        """
-        Args:
-            root_dir (string): Directory with all the images.
-            transform (callable, optional): Optional transform to be applied
-                on a sample.
-        """
-        self.root_dir = root_dir
-        self.transform = transform
+    dataset = datasets.ImageFolder(root_dir, transform=data_transforms)
 
-    def __len__(self): #not sure we will need this
-        pass
+    torch.manual_seed(1)
+    dataset_size = len(dataset)
+    test_size = int(test_size * dataset_size)
+    train_size = dataset_size - test_size
 
-    def __getitem__(self, idx):
-        sample = None #TODO
+    train_dataset, test_dataset = torch.utils.data.random_split(dataset, [train_size, test_size])
 
-        if self.transform:
-            sample = self.transform(sample)
+    logging.info(f"Training size: {len(train_dataset)}") 
+    logging.info(f"Test size: {len(test_dataset)}")
 
-        return sample
+    torch.save(train_dataset, f"{output_filepath}/train.pt")
+    torch.save(test_dataset, f"{output_filepath}/test.pt")
+
 
 @click.command()
 @click.argument('input_filepath', type=click.Path(exists=True))
@@ -39,6 +41,8 @@ def main(input_filepath, output_filepath):
     """
     logger = logging.getLogger(__name__)
     logger.info('making final data set from raw data')
+
+    load_data(input_filepath, output_filepath)
 
 
 if __name__ == '__main__':
