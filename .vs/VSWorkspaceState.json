@@ -1,0 +1,10 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\data",
+    "\\src\\models"
+  ],
+  "SelectedNode": "\\src\\models\\conv_nn.py",
+  "PreviewInSolutionExplorer": false
+}

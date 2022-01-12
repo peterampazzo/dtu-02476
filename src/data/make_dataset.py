@@ -35,8 +35,8 @@ def load_data(root_dir: str, output_filepath: str) -> None:
 
 
 @click.command()
-@click.argument("input_filepath", type=click.Path(exists=True))
-@click.argument("output_filepath", type=click.Path())
+@click.argument("input_filepath", default='./data/raw/asl_alphabet_train', type=click.Path(exists=True))
+@click.argument("output_filepath", default='./data/processed/', type=click.Path())
 def main(input_filepath, output_filepath):
     """Runs data processing scripts to turn raw data from (../raw) into
     cleaned data ready to be analyzed (saved in ../processed).

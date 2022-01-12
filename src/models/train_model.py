@@ -1,6 +1,7 @@
 import torch
 from conv_nn import ConvNet
 from torch import nn, optim
+from kornia_trans import transform
 
 
 def train(epochs=20, lr=0.001):
@@ -22,6 +23,8 @@ def train(epochs=20, lr=0.001):
         for images, labels in train_set:
 
             optimizer.zero_grad()
+
+            images = transform(images) #kornia transformations
 
             log_ps = model(images)
             loss = criterion(log_ps, labels)
