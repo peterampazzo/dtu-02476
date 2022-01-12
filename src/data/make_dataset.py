@@ -5,16 +5,16 @@ from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 import torch
 import torchvision
-from torchvision import transforms, datasets 
+from torchvision import transforms, datasets
 
 import torch
 
+
 def load_data(root_dir: str, output_filepath: str) -> None:
     test_size = 0.2
-    data_transforms = transforms.Compose([
-        transforms.Resize(224),
-        transforms.ToTensor()
-    ])
+    data_transforms = transforms.Compose(
+        [transforms.Resize(224), transforms.ToTensor()]
+    )
 
     dataset = datasets.ImageFolder(root_dir, transform=data_transforms)
 
@@ -23,9 +23,11 @@ def load_data(root_dir: str, output_filepath: str) -> None:
     test_size = int(test_size * dataset_size)
     train_size = dataset_size - test_size
 
-    train_dataset, test_dataset = torch.utils.data.random_split(dataset, [train_size, test_size])
+    train_dataset, test_dataset = torch.utils.data.random_split(
+        dataset, [train_size, test_size]
+    )
 
-    logging.info(f"Training size: {len(train_dataset)}") 
+    logging.info(f"Training size: {len(train_dataset)}")
     logging.info(f"Test size: {len(test_dataset)}")
 
     torch.save(train_dataset, f"{output_filepath}/train.pt")
@@ -33,20 +35,20 @@ def load_data(root_dir: str, output_filepath: str) -> None:
 
 
 @click.command()
-@click.argument('input_filepath', type=click.Path(exists=True))
-@click.argument('output_filepath', type=click.Path())
+@click.argument("input_filepath", type=click.Path(exists=True))
+@click.argument("output_filepath", type=click.Path())
 def main(input_filepath, output_filepath):
-    """ Runs data processing scripts to turn raw data from (../raw) into
-        cleaned data ready to be analyzed (saved in ../processed).
+    """Runs data processing scripts to turn raw data from (../raw) into
+    cleaned data ready to be analyzed (saved in ../processed).
     """
     logger = logging.getLogger(__name__)
-    logger.info('making final data set from raw data')
+    logger.info("making final data set from raw data")
 
     load_data(input_filepath, output_filepath)
 
 
-if __name__ == '__main__':
-    log_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+if __name__ == "__main__":
+    log_fmt = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     logging.basicConfig(level=logging.INFO, format=log_fmt)
 
     # not used in this stub but often useful for finding various files

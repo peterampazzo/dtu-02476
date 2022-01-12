@@ -3,9 +3,7 @@ from conv_nn import ConvNet
 from torch import nn, optim
 
 
-
-
-def train(epochs = 20, lr = 0.001):
+def train(epochs=20, lr=0.001):
     print("Training")
 
     model = ConvNet()
@@ -22,18 +20,20 @@ def train(epochs = 20, lr = 0.001):
     for e in range(epochs):
         running_loss = 0
         for images, labels in train_set:
-            
+
             optimizer.zero_grad()
-        
+
             log_ps = model(images)
             loss = criterion(log_ps, labels)
             loss.backward()
             optimizer.step()
-        
+
             running_loss += loss.item()
 
         print(f"Epoch: {e} - Training loss: {running_loss/len(train_set):5f}")
         train_loss.append(running_loss / len(train_set))
+
+    torch.save(model.state_dict(), "models/trained_model.pt")
 
 
 if __name__ == "__main__":

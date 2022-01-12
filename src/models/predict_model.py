@@ -1,5 +1,6 @@
 import torch
 
+
 def predict():
     print("Evaluating")
 
@@ -16,6 +17,7 @@ def predict():
     accuracy = torch.mean(equals.type(torch.FloatTensor))
 
     print(f"Accuracy: {accuracy.item()*100}%")
+
 
 if __name__ == "__main__":
     predict()
