@@ -1,13 +1,10 @@
-# -*- coding: utf-8 -*-
-import click
 import logging
 from pathlib import Path
-from dotenv import find_dotenv, load_dotenv
-import torch
-import torchvision
-from torchvision import transforms, datasets
 
+import click
 import torch
+from dotenv import find_dotenv, load_dotenv
+from torchvision import datasets, transforms
 
 
 def load_data(root_dir: str, output_filepath: str) -> None:
