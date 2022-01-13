@@ -8,6 +8,16 @@ from torchvision import datasets, transforms
 
 
 def load_data(root_dir: str, output_filepath: str) -> None:
+    """
+    Generate and save train and test dataloader.
+
+            Parameters:
+                    root_dir (str): Location raw data
+                    output_filepath (str): Location output files
+
+            Returns:
+                    None
+    """
     test_size = 0.2
     data_transforms = transforms.Compose(
         [transforms.Resize(224), transforms.ToTensor()]
