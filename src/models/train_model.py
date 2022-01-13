@@ -13,7 +13,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 log = logging.getLogger(__name__)
 
 
-@hydra.main(config_path="config", config_name="default.yaml")
+@hydra.main(config_path="../../config/", config_name="default.yaml")
 def train(config):
     orig_cwd = hydra.utils.get_original_cwd()
     log.info("Training")
