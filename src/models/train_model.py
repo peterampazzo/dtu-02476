@@ -1,14 +1,15 @@
+import logging
+
+import hydra
 import torch
 from conv_nn import ConvNet
-from torch import nn, optim
-import hydra
 from omegaconf import OmegaConf
-import logging
+from torch import nn, optim
 
 log = logging.getLogger(__name__)
 
-@hydra.main(config_path="config", config_name='default.yaml')
 
+@hydra.main(config_path="config", config_name="default.yaml")
 def train(config):
     log.info("Training")
     log.info(f"configuration: \n {OmegaConf.to_yaml(config)}")
@@ -33,14 +34,14 @@ def train(config):
     for e in range(epochs):
         running_loss = 0
         for images, labels in train_set:
-            
+
             optimizer.zero_grad()
-        
+
             log_ps = model(images)
             loss = criterion(log_ps, labels)
             loss.backward()
             optimizer.step()
-        
+
             running_loss += loss.item()
 
         log.info(f"Epoch: {e} - Training loss: {running_loss/len(train_set):5f}")
