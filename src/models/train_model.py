@@ -46,7 +46,7 @@ def train(config):
 
         log.info(f"Epoch: {e} - Training loss: {running_loss/len(train_set):5f}")
         train_loss.append(running_loss / len(train_set))
-    torch.save(model, "models/trained_model.pt")
+    torch.save(model.state_dict(), "models/trained_model.pt")
 
 
 if __name__ == "__main__":
