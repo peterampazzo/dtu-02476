@@ -10,7 +10,7 @@ from torch import nn, optim
 log = logging.getLogger(__name__)
 
 
-@hydra.main(config_path="config", config_name="default.yaml")
+@hydra.main(config_path="../../config/", config_name="default.yaml")
 def train(config):
     log.info("Training")
     log.info(f"configuration: \n {OmegaConf.to_yaml(config)}")
