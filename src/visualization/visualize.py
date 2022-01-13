@@ -22,9 +22,9 @@ def show(imgs):
 
 if __name__ == '__main__':
     train = torch.load("data/processed/train.pt")
-    torch.manual_seed(1)
+    torch.manual_seed(3) #seed
 
     images = [train[i][0] for i in range(4)]
     trans = [transform(img).squeeze(0) for img in images]
-    grid = make_grid(images+trans, nrow=4)#[train[i][0] for i in range(16)], nrow=4)
+    grid = make_grid(images+trans, nrow=4)
     show(grid)
