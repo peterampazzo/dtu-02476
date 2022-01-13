@@ -1,11 +1,9 @@
-import torch
-from torch import nn
-import torch.nn.init as init
 import torch.nn.functional as F
+from torch import nn
 
 
 class ConvNet(nn.Module):
-    def __init__(self):
+    def __init__(self, out_features1: int, out_features2: int):
         super(ConvNet, self).__init__()
 
         self.cnn_layers = nn.Sequential(
@@ -19,11 +17,11 @@ class ConvNet(nn.Module):
 
         self.flatten = nn.Flatten()
         self.linear_layers = nn.Sequential(
-            nn.Linear(in_features=36864, out_features=1024),
+            nn.Linear(in_features=36864, out_features=out_features1),
             nn.ReLU(),
-            nn.Linear(in_features=1024, out_features=512),
+            nn.Linear(int_features=out_features1, out_features=out_features2),
             nn.ReLU(),
-            nn.Linear(in_features=512, out_features=29),
+            nn.Linear(int_features=out_features2, out_features=29),
         )
 
     # Defining the forward pass
@@ -33,8 +31,3 @@ class ConvNet(nn.Module):
         x = self.linear_layers(x)
         x = F.log_softmax(x, dim=1)
         return x
-
-
-if __name__ == "__main__":
-    cnn = ConvNet()
-    print("All done!")
