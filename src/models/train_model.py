@@ -10,14 +10,16 @@ log = logging.getLogger(__name__)
 @hydra.main(config_path="config", config_name='default.yaml')
 
 def train(config):
-    print("Training")
-    print(f"configuration: \n {OmegaConf.to_yaml(config)}")
+    log.info("Training")
+    log.info(f"configuration: \n {OmegaConf.to_yaml(config)}")
     hparams = config.experiment
     torch.manual_seed(hparams["seed"])
     lr = hparams["lr"]
     epochs = hparams["epochs"]
+    out_features1 = hparams["out_features1"]
+    out_features2 = hparams["out_features2"]
 
-    model = ConvNet()
+    model = ConvNet(out_features1, out_features2)
 
     train = torch.load("data/processed/train.pt")
     train_set = torch.utils.data.DataLoader(train, batch_size=64, shuffle=True)
@@ -41,7 +43,7 @@ def train(config):
         
             running_loss += loss.item()
 
-        print(f"Epoch: {e} - Training loss: {running_loss/len(train_set):5f}")
+        log.info(f"Epoch: {e} - Training loss: {running_loss/len(train_set):5f}")
         train_loss.append(running_loss / len(train_set))
     torch.save(model, "models/trained_model.pt")
 
