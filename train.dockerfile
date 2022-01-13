@@ -1,3 +1,5 @@
+# docker build -f train.dockerfile . -t train:latest  
+
 # Base image
 FROM python:3.7-slim
 
@@ -15,6 +17,6 @@ COPY config/ config/
 RUN pip install -r requirements.txt --no-cache-dir
 RUN pip install -e .
 
-# ENTRYPOINT ["python", "-u", "src/models/train_model.py"]
+ENTRYPOINT ["python", "-u", "src/models/train_model.py"]
 
-CMD ["sh", "-c", "tail -f /dev/null"]
+# CMD ["sh", "-c", "tail -f /dev/null"]
