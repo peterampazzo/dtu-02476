@@ -3,7 +3,7 @@ from conv_nn import ConvNet
 from torch import nn, optim
 
 
-def train(epochs=20, lr=0.001):
+def train(epochs: int = 20, lr: float = 0.001):
     print("Training")
 
     model = ConvNet()
