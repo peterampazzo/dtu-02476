@@ -13,7 +13,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 log = logging.getLogger(__name__)
 
 
-@hydra.main(config_path="../../config/", config_name="default.yaml")
+@hydra.main(config_path="config/", config_name="default.yaml")
 def train(config):
     orig_cwd = hydra.utils.get_original_cwd()
     log.info("Training")
@@ -27,7 +27,7 @@ def train(config):
 
     model = ConvNet(out_features1, out_features2)
 
-    train = torch.load(f"{orig_cwd}/data/processed/train.pt")
+    train = torch.load("/data/processed/train.pt")
     train_set = torch.utils.data.DataLoader(train, batch_size=64, shuffle=True)
     model.train()
 
