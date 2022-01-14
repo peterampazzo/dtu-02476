@@ -1,6 +1,7 @@
 import torch
 from conv_nn import ConvNet
 
+
 def predict():
     print("Evaluating")
 

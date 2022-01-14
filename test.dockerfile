@@ -10,7 +10,7 @@ WORKDIR /app
 COPY requirements.txt requirements.txt
 COPY setup.py setup.py
 COPY src/ src/
-#COPY config/ config/
+COPY config.yaml config.yaml
 
 RUN pip install -r requirements.txt --no-cache-dir
 RUN pip install -e .

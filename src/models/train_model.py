@@ -26,7 +26,9 @@ def train():
     model = ConvNet(out_features1, out_features2)
 
     train_data = torch.load("data/processed/train.pt")
-    train_set = torch.utils.data.DataLoader(train_data, batch_size=64, shuffle=True, num_workers=0)
+    train_set = torch.utils.data.DataLoader(
+        train_data, batch_size=64, shuffle=True, num_workers=0
+    )
     model.train()
 
     criterion = nn.NLLLoss()
@@ -38,7 +40,7 @@ def train():
         print(f"Starting epoch: {e+1}/{epochs}")
         running_loss = 0
         for i, (images, labels) in enumerate(train_set):
-            
+
             print(f"    Batch {i}/{len(train_data)//64}")
 
             optimizer.zero_grad()
@@ -52,9 +54,11 @@ def train():
 
             running_loss += loss.item()
 
-        print(f"Finished epoch: {e+1} - Training loss: {running_loss/len(train_set):5f}")
+        print(
+            f"Finished epoch: {e+1} - Training loss: {running_loss/len(train_set):5f}"
+        )
         train_loss.append(running_loss / len(train_set))
-        
+
     torch.save(model.state_dict(), "models/trained_model.pt")
     print("Model saved")
 
