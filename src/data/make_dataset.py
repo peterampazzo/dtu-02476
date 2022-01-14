@@ -1,4 +1,5 @@
 import logging
+import os
 from pathlib import Path
 
 import click
@@ -44,7 +45,7 @@ def load_data(root_dir: str, output_filepath: str) -> None:
 @click.command()
 @click.argument(
     "input_filepath",
-    default="data/raw/asl_alphabet_train",
+    default=os.path.join(os.getcwd(), "data/raw/asl_alphabet_train"),
     type=click.Path(exists=True),
 )
 @click.argument("output_filepath", default="data/processed/", type=click.Path())
