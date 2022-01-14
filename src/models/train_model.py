@@ -1,7 +1,6 @@
 import logging
 import warnings
 
-import hydra
 import torch
 from conv_nn import ConvNet
 from kornia_trans import transform
@@ -13,12 +12,11 @@ warnings.filterwarnings("ignore", category=UserWarning)
 log = logging.getLogger(__name__)
 
 
-@hydra.main(config_path="config/", config_name="default.yaml")
-def train(config):
-    orig_cwd = hydra.utils.get_original_cwd()
-    log.info("Training")
-    log.info(f"configuration: \n {OmegaConf.to_yaml(config)}")
-    hparams = config.experiment
+def train():
+    config = OmegaConf.load("config.yaml")
+    print("Training")
+    print(f"configuration: \n {OmegaConf.to_yaml(config)}")
+    hparams = config["hyperparameters"]
     torch.manual_seed(hparams["seed"])
     lr = hparams["lr"]
     epochs = hparams["epochs"]
@@ -27,7 +25,7 @@ def train(config):
 
     model = ConvNet(out_features1, out_features2)
 
-    train = torch.load("/data/processed/train.pt")
+    train = torch.load("data/processed/train.pt")
     train_set = torch.utils.data.DataLoader(train, batch_size=64, shuffle=True)
     model.train()
 
@@ -37,6 +35,7 @@ def train(config):
     train_loss = []
 
     for e in range(epochs):
+        print(f"Epoch: {e}/{epochs}")
         running_loss = 0
         for images, labels in train_set:
 
@@ -51,9 +50,9 @@ def train(config):
 
             running_loss += loss.item()
 
-        log.info(f"Epoch: {e} - Training loss: {running_loss/len(train_set):5f}")
+        print(f"Epoch: {e} - Training loss: {running_loss/len(train_set):5f}")
         train_loss.append(running_loss / len(train_set))
-    torch.save(model.state_dict(), f"{orig_cwd}/models/trained_model.pt")
+    torch.save(model.state_dict(), "models/trained_model.pt")
 
 
 if __name__ == "__main__":

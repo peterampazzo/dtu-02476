@@ -1,0 +1,6 @@
+hyperparameters:
+    epochs: 2
+    lr: 0.001
+    seed: 123
+    out_features1: 1024
+    out_features2: 512
