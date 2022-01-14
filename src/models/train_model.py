@@ -1,4 +1,5 @@
 import logging
+import warnings
 
 import hydra
 import torch
@@ -6,6 +7,8 @@ from conv_nn import ConvNet
 from kornia_trans import transform
 from omegaconf import OmegaConf
 from torch import nn, optim
+
+warnings.filterwarnings("ignore", category=UserWarning)
 
 log = logging.getLogger(__name__)
 
