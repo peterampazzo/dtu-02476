@@ -19,9 +19,9 @@ class ConvNet(nn.Module):
         self.linear_layers = nn.Sequential(
             nn.Linear(in_features=36864, out_features=out_features1),
             nn.ReLU(),
-            nn.Linear(int_features=out_features1, out_features=out_features2),
+            nn.Linear(in_features=out_features1, out_features=out_features2),
             nn.ReLU(),
-            nn.Linear(int_features=out_features2, out_features=29),
+            nn.Linear(in_features=out_features2, out_features=29),
         )
 
     # Defining the forward pass
