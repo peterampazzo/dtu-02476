@@ -3,6 +3,7 @@ import logging
 import hydra
 import torch
 from conv_nn import ConvNet
+from kornia_trans import transform
 from omegaconf import OmegaConf
 from torch import nn, optim
 
@@ -36,6 +37,8 @@ def train(config):
         for images, labels in train_set:
 
             optimizer.zero_grad()
+
+            images = transform(images)  # kornia transformations
 
             log_ps = model(images)
             loss = criterion(log_ps, labels)
