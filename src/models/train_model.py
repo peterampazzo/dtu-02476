@@ -12,6 +12,7 @@ log = logging.getLogger(__name__)
 
 @hydra.main(config_path="config", config_name="default.yaml")
 def train(config):
+    orig_cwd = hydra.utils.get_original_cwd()
     log.info("Training")
     log.info(f"configuration: \n {OmegaConf.to_yaml(config)}")
     hparams = config.experiment
@@ -23,7 +24,7 @@ def train(config):
 
     model = ConvNet(out_features1, out_features2)
 
-    train = torch.load("data/processed/train.pt")
+    train = torch.load(f"{orig_cwd}/data/processed/train.pt")
     train_set = torch.utils.data.DataLoader(train, batch_size=64, shuffle=True)
     model.train()
 
@@ -49,7 +50,7 @@ def train(config):
 
         log.info(f"Epoch: {e} - Training loss: {running_loss/len(train_set):5f}")
         train_loss.append(running_loss / len(train_set))
-    torch.save(model.state_dict(), "models/trained_model.pt")
+    torch.save(model.state_dict(), f"{orig_cwd}/models/trained_model.pt")
 
 
 if __name__ == "__main__":
