@@ -1,4 +1,5 @@
 import logging
+import sys
 import warnings
 
 import torch
@@ -8,14 +9,15 @@ from omegaconf import OmegaConf
 from torch import nn, optim
 
 warnings.filterwarnings("ignore", category=UserWarning)
-
-log = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+logger.addHandler(logging.StreamHandler(sys.stdout))
 
 
 def train():
     config = OmegaConf.load("config.yaml")
-    print("Training")
-    print(f"configuration: \n {OmegaConf.to_yaml(config)}")
+    logger.info("Training")
+    logger.info(f"configuration: \n {OmegaConf.to_yaml(config)}")
     hparams = config["hyperparameters"]
     torch.manual_seed(hparams["seed"])
     lr = hparams["lr"]
@@ -37,11 +39,11 @@ def train():
     train_loss = []
 
     for e in range(epochs):
-        print(f"Starting epoch: {e+1}/{epochs}")
+        logger.info(f"Starting epoch: {e+1}/{epochs}")
         running_loss = 0
         for i, (images, labels) in enumerate(train_set):
 
-            print(f"    Batch {i}/{len(train_data)//64}")
+            logger.info(f"    Batch {i}/{len(train_data)//64}")
 
             optimizer.zero_grad()
 
@@ -54,15 +56,15 @@ def train():
 
             running_loss += loss.item()
 
-        print(
+        logger.info(
             f"Finished epoch: {e+1} - Training loss: {running_loss/len(train_set):5f}"
         )
         train_loss.append(running_loss / len(train_set))
 
     torch.save(model.state_dict(), "models/trained_model.pt")
-    print("Model saved")
+    logger.info("Model saved")
 
 
 if __name__ == "__main__":
     train()
-    print("All done")
+    logger.info("Completed")
