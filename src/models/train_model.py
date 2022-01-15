@@ -1,4 +1,3 @@
-from email.policy import default
 import logging
 import sys
 import warnings
@@ -33,7 +32,10 @@ def train(profile: int):
 
     train_data = torch.load("data/processed/train.pt")
     train_set = torch.utils.data.DataLoader(
-        train_data, batch_size=hparams["batch_size"], shuffle=True, num_workers=hparams["num_workers"]
+        train_data,
+        batch_size=hparams["batch_size"],
+        shuffle=True,
+        num_workers=hparams["num_workers"],
     )
     model.train()
 
