@@ -1,3 +1,4 @@
+from email.policy import default
 import logging
 import sys
 import warnings
@@ -16,7 +17,7 @@ logger.addHandler(logging.StreamHandler(sys.stdout))
 
 
 @click.command()
-@click.argument("profile", type=int)
+@click.argument("profile", type=int, default=0)
 def train(profile: int):
     config = OmegaConf.load("config.yaml")
     logger.info("Training")
@@ -32,7 +33,7 @@ def train(profile: int):
 
     train_data = torch.load("data/processed/train.pt")
     train_set = torch.utils.data.DataLoader(
-        train_data, batch_size=64, shuffle=True, num_workers=0
+        train_data, batch_size=hparams["batch_size"], shuffle=True, num_workers=hparams["num_workers"]
     )
     model.train()
 
@@ -46,7 +47,7 @@ def train(profile: int):
         running_loss = 0
         for i, (images, labels) in enumerate(train_set):
 
-            logger.info(f"    Batch {i}/{len(train_data)//64}")
+            logger.info(f"    Batch {i}/{len(train_data)//hparams['batch_size']}")
 
             optimizer.zero_grad()
 
