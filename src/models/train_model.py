@@ -2,6 +2,7 @@ import logging
 import sys
 import warnings
 
+import click
 import torch
 from conv_nn import ConvNet
 from kornia_trans import transform
@@ -14,11 +15,13 @@ logger.setLevel(logging.DEBUG)
 logger.addHandler(logging.StreamHandler(sys.stdout))
 
 
-def train():
+@click.command()
+@click.argument("profile", type=int)
+def train(profile: int):
     config = OmegaConf.load("config.yaml")
     logger.info("Training")
-    logger.info(f"configuration: \n {OmegaConf.to_yaml(config)}")
-    hparams = config["hyperparameters"]
+    hparams = config["profiles"][profile]
+    logger.info(f"configuration: \n {OmegaConf.to_yaml(hparams)}")
     torch.manual_seed(hparams["seed"])
     lr = hparams["lr"]
     epochs = hparams["epochs"]

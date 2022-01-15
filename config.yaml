@@ -1,6 +1,13 @@
-hyperparameters:
-    epochs: 2
-    lr: 0.001
-    seed: 123
-    out_features1: 1024
-    out_features2: 512
+profiles:
+    1:
+        epochs: 2
+        lr: 0.001
+        seed: 123
+        out_features1: 1024
+        out_features2: 512
+    2:
+        epochs: 3
+        lr: 0.01
+        seed: 124
+        out_features1: 512
+        out_features2: 256
