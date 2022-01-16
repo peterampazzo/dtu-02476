@@ -9,7 +9,7 @@ import pytest
 
 def test_length():
     data = torch.load("data/processed/test.pt") #datas
-    assert len(set([label for _, label in data])) == 3, "Not the good number of classes"
+    assert len(set([label for _, label in data])) == 29, "Not the good number of classes"
 
 def test_shape():
     data = torch.load("data/processed/test.pt") #datas
