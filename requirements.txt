@@ -13,3 +13,5 @@ isort==5.10.1
 mypy==0.931
 pre_commit==2.16.0
 hydra_core==1.1.1
+pytest==6.2.5
+coverage==6.2
