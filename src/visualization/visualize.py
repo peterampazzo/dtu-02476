@@ -1,3 +1,5 @@
+import warnings
+
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
@@ -6,6 +8,8 @@ from torchvision.utils import make_grid
 from src.models.kornia_trans import transform
 
 plt.rcParams["savefig.bbox"] = "tight"
+
+warnings.filterwarnings("ignore", category=UserWarning)
 
 
 def show(imgs):

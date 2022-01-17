@@ -1,5 +1,0 @@
-epochs: 3
-lr: 0.01
-seed: 124
-out_features1: 512
-out_features2: 256
