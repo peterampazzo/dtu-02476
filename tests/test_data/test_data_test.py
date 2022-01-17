@@ -13,6 +13,7 @@ def test_length():
     ), "Not the good number of classes"
 
 
+@pytest.mark.skipif(not os.path.exists("data/processed/test.pt"), reason="No Datas")
 def test_shape():
     data = torch.load("data/processed/test.pt")  # datas
     randomlist = random.sample(range(0, len(data) - 1), 200)
