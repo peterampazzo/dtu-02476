@@ -1,25 +1,30 @@
-name: CodeCov
+name: Codecov
 on: [pull_request]
 jobs:
   run:
     runs-on: ubuntu-latest
     env:
-      OS: ubuntu-latest
-      PYTHON: '3.9'
+      OS: ${{ matrix.os }}
+      PYTHON: '3.7'
     steps:
-    - uses: checkout@v2
-      with:
-        fetch-depth: ‘2’
-
+    - uses: actions/checkout@master
     - name: Setup Python
       uses: actions/setup-python@master
       with:
         python-version: 3.7
-    - name: Generate Report
+    - name: Generate coverage report
       run: |
-        pip install coverage pytest
-        coverage run -m pytest tests/ 
-    - name: Upload Coverage to Codecov
+        pip install -e
+        pip install pytest
+        pip install pytest-cov
+        pytest --cov=./ --cov-report=xml
+    - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
+        directory: ./coverage/reports/
+        fail_ci_if_error: true
+        files: ./coverage1.xml,./coverage2.xml
+        flags: pytest
+        name: codecov
+        path_to_write_report: ./coverage/codecov_report.txt
         verbose: true
