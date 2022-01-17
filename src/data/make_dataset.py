@@ -18,7 +18,7 @@ def load_data(root_dir: str, output_filepath: str) -> None:
             Returns:
                     None
     """
-    test_size = 0.995
+    test_size = 0.2
     data_transforms = transforms.Compose(
         [transforms.Resize(224), transforms.ToTensor()]
     )
