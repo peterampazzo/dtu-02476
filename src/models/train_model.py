@@ -8,6 +8,8 @@ from conv_nn import ConvNet
 from kornia_trans import transform
 from omegaconf import OmegaConf
 from torch import nn, optim
+import wandb
+from os import environ
 
 warnings.filterwarnings("ignore", category=UserWarning)
 logger = logging.getLogger(__name__)
@@ -19,6 +21,9 @@ logger.addHandler(logging.StreamHandler(sys.stdout))
 @click.argument("profile", type=int, default=0)
 def train(profile: int):
     config = OmegaConf.load("config.yaml")
+    environ["WANDB_API_KEY"] = config.wandb_api
+    environ["WANDB_MODE"] = "offline"
+    wandb.init(config=config)
     logger.info("Training")
     hparams = config["profiles"][profile]
     logger.info(f"configuration: \n {OmegaConf.to_yaml(hparams)}")

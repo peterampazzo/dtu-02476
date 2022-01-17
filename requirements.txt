@@ -13,3 +13,4 @@ isort==5.10.1
 mypy==0.931
 pre_commit==2.16.0
 omegaconf==2.1.1
+wandb==0.12.9

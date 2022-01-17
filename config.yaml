@@ -1,3 +1,4 @@
+wandb_api: ${env:WANDB_API}
 profiles:
     0:
         epochs: 2
