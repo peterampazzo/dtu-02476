@@ -26,5 +26,4 @@ jobs:
         files: ./coverage1.xml,./coverage2.xml
         flags: pytest
         name: codecov
-        path_to_write_report: ./coverage/codecov_report.txt
         verbose: true
