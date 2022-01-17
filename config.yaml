@@ -1,4 +1,8 @@
-wandb_api: ${env:WANDB_API}
+wandb:
+    api_key: ${env:WANDB_API}
+    project: "dtu-02476"
+    entity: "erlahrafnkels"
+    mode: ${env:WANDB_MODE,offline}
 profiles:
     0:
         epochs: 2
