@@ -1,4 +1,6 @@
 [core]
-    remote = storage
-['remote "storage"']
+    remote = gcloud
+['remote "gdrive"']
     url = gdrive://1QdmKDG_F3U7sko3Bn800LeXpOf7lmvIE
+['remote "gcloud"']
+    url = gs://dtumlopsgroup/
