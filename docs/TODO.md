@@ -28,10 +28,10 @@ point on the checklist for the exam.
 - [x] Write unit tests related to the data part of your code
 - [x] Write unit tests related to model construction
 - [x] Calculate the coverage.
-- [ ] Get some continuous integration running on the github repository
-- [ ] (optional) Create a new project on `gcp` and invite all group members to it
+- [x] Get some continuous integration running on the github repository
+- [x] (optional) Create a new project on `gcp` and invite all group members to it
 - [ ] Create a data storage on `gcp` for you data
-- [ ] Create a trigger workflow for automatically building your docker images
+- [x] Create a trigger workflow for automatically building your docker images
 - [ ] Get your model training on `gcp`
 - [ ] Play around with distributed data loading
 - [ ] (optional) Play around with distributed model training

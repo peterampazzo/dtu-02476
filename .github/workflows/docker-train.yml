@@ -1,4 +1,4 @@
-name: Build and Push to GCR - makedata.dockerfile
+name: Build and Push to GCR - train.dockerfile
 on:
   push:
     branches:
@@ -15,5 +15,5 @@ jobs:
           gcloud_service_key: ${{ secrets.GCR_KEY }}
           registry: gcr.io
           project_id: mlops-337909
-          image_name: make_data
-          dockerfile: docker/makedata.dockerfile
+          image_name: train
+          dockerfile: docker/train.dockerfile
