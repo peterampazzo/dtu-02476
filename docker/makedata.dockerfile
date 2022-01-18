@@ -35,11 +35,11 @@ WORKDIR /app
 COPY requirements.txt requirements.txt
 COPY setup.py setup.py
 COPY src/ src/
-#COPY config.yaml config.yaml
+COPY docker/ docker/
 
 RUN pip install -r requirements.txt --no-cache-dir
 RUN pip install -e .
 
-ENTRYPOINT ["makedata_entrypoint.sh"]
+ENTRYPOINT ["docker/makedata_entrypoint.sh"]
 
 # CMD ["sh", "-c", "tail -f /dev/null"]
