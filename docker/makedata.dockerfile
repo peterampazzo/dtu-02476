@@ -15,6 +15,7 @@ RUN apt update && \
 # Install system packages.
 RUN apt-get update
 RUN apt-get install -y curl
+RUN apt-get install gnupg
 
 # Install gcsfuse.
 RUN echo "deb http://packages.cloud.google.com/apt gcsfuse-bionic main" | tee /etc/apt/sources.list.d/gcsfuse.list
