@@ -7,6 +7,8 @@
 # Base image
 FROM python:3.7-slim
 
+ARG GCP_KEY
+
 # install python 
 RUN apt update && \
     apt install --no-install-recommends -y build-essential gcc && \
@@ -32,15 +34,16 @@ RUN apt-get update
 RUN apt-get install -y google-cloud-sdk
 
 WORKDIR /app
+RUN printf '%s' "$GCP_KEY" > /app/gcloud-service-key.json
+
 COPY requirements.txt requirements.txt
 COPY setup.py setup.py
 COPY src/ src/
+COPY config.yaml config.yaml
 COPY docker/makedata_entrypoint.sh makedata_entrypoint.sh
 
 RUN pip install -r requirements.txt --no-cache-dir
 RUN pip install -e .
-
-RUN $GOOGLE_APPLICATION_CREDENTIALS > gcp_key.json
 
 ENTRYPOINT ["bash", "makedata_entrypoint.sh"]
 
