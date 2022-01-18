@@ -15,6 +15,6 @@ jobs:
         with:
           gcloud_service_key: ${{ secrets.GCR_KEY }}
           registry: gcr.io
-          project_id: mlops-338418
+          project_id: dtumlops-338418
           image_name: make_data
           dockerfile: docker/makedata.dockerfile
