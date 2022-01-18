@@ -5,12 +5,11 @@ from os import environ
 
 import click
 import torch
+import wandb
 from conv_nn import ConvNet
 from kornia_trans import transform
 from omegaconf import OmegaConf
 from torch import nn, optim
-
-import wandb
 
 warnings.filterwarnings("ignore", category=UserWarning)
 logger = logging.getLogger(__name__)
