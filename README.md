@@ -82,6 +82,9 @@ Therefore, enable it: `conda activate mlops`.
     │   │   ├── predict_model.py
     │   │   └── train_model.py
     │   │
+    │   ├── profiling      <- Scripts to profile the cnn
+    │   │   └── model_profiling.py
+    │   │
     │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
     │       └── visualize.py
     │
