@@ -35,11 +35,13 @@ WORKDIR /app
 COPY requirements.txt requirements.txt
 COPY setup.py setup.py
 COPY src/ src/
-COPY docker/ docker/
+COPY docker/makedata_entrypoint.sh makedata_entrypoint.sh
 
 RUN pip install -r requirements.txt --no-cache-dir
 RUN pip install -e .
 
-ENTRYPOINT ["docker/makedata_entrypoint.sh"]
+RUN $GOOGLE_APPLICATION_CREDENTIALS > gcp_key.json
+
+ENTRYPOINT ["bash", "makedata_entrypoint.sh"]
 
 # CMD ["sh", "-c", "tail -f /dev/null"]
