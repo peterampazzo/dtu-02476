@@ -1,7 +1,7 @@
 wandb:
     api_key: ${env:WANDB_API}
     project: "dtu-02476"
-    entity: "erlahrafnkels"
+    entity: "dtumlops"
     mode: ${env:WANDB_MODE,offline}
 profiles:
     0:

@@ -1,6 +1,7 @@
 import logging
 import sys
 import warnings
+from os import environ
 
 import click
 import torch
@@ -8,8 +9,8 @@ from conv_nn import ConvNet
 from kornia_trans import transform
 from omegaconf import OmegaConf
 from torch import nn, optim
+
 import wandb
-from os import environ
 
 warnings.filterwarnings("ignore", category=UserWarning)
 logger = logging.getLogger(__name__)
@@ -21,9 +22,14 @@ logger.addHandler(logging.StreamHandler(sys.stdout))
 @click.argument("profile", type=int, default=0)
 def train(profile: int):
     config = OmegaConf.load("config.yaml")
-    environ["WANDB_API_KEY"] = config.wandb_api
-    environ["WANDB_MODE"] = "offline"
-    wandb.init(config=config)
+    environ["WANDB_API_KEY"] = config.wandb.api_key
+    environ["WANDB_MODE"] = config.wandb.mode
+    wandb.init(
+        project=config.wandb.project,
+        entity=config.wandb.entity,
+        config=config["profiles"][profile],
+    )
+
     logger.info("Training")
     hparams = config["profiles"][profile]
     logger.info(f"configuration: \n {OmegaConf.to_yaml(hparams)}")
@@ -34,6 +40,9 @@ def train(profile: int):
     out_features2 = hparams["out_features2"]
 
     model = ConvNet(out_features1, out_features2)
+    criterion = nn.NLLLoss()
+    optimizer = optim.Adam(model.parameters(), lr=lr)
+    wandb.watch(model, criterion, log="all", log_freq=100)
 
     train_data = torch.load("data/processed/train.pt")
     train_set = torch.utils.data.DataLoader(
@@ -43,9 +52,6 @@ def train(profile: int):
         num_workers=hparams["num_workers"],
     )
     model.train()
-
-    criterion = nn.NLLLoss()
-    optimizer = optim.Adam(model.parameters(), lr=lr)
 
     train_loss = []
 
@@ -71,6 +77,7 @@ def train(profile: int):
             f"Finished epoch: {e+1} - Training loss: {running_loss/len(train_set):5f}"
         )
         train_loss.append(running_loss / len(train_set))
+        wandb.log({"Training loss": train_loss[-1]})
 
     torch.save(model.state_dict(), "models/trained_model.pt")
     logger.info("Model saved")
