@@ -1,0 +1,19 @@
+name: Build and Push to GCR - train.dockerfile
+on:
+  push:
+    branches:
+        - main
+        - develop
+jobs:
+  build-and-push-to-gcr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: google-github-actions/setup-gcloud@master
+      - uses: RafikFarhad/push-to-gcr-github-action@v4
+        with:
+          gcloud_service_key: ${{ secrets.GCR_KEY }}
+          registry: gcr.io
+          project_id: mlops-337909
+          image_name: train
+          dockerfile: docker/train.dockerfile
