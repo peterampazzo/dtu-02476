@@ -7,6 +7,7 @@ import torch
 
 train = torch.load("data/processed/train.pt")
 
+
 def time_per_core():
     nb_core = multiprocessing.cpu_count()
     core = [i for i in range(0, nb_core + 1)]
@@ -41,5 +42,6 @@ def time_per_core():
     with open("reports/distributed_datas/deviations", "wb") as fp:  # Pickling
         pickle.dump(deviations, fp)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     time_per_core()
