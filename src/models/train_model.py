@@ -18,8 +18,14 @@ logger.addHandler(logging.StreamHandler(sys.stdout))
 
 
 @click.command()
+@click.argument(
+    "input_filepath",
+    default="data/processed",
+    type=click.Path(exists=True),
+)
+@click.argument("output_filepath", default="models", type=click.Path())
 @click.argument("profile", type=int, default=0)
-def train(profile: int):
+def train(input_filepath: str, output_filepath: str, profile: int):
     config = OmegaConf.load("config.yaml")
     environ["WANDB_API_KEY"] = config.wandb.api_key
     environ["WANDB_MODE"] = config.wandb.mode
@@ -43,7 +49,7 @@ def train(profile: int):
     optimizer = optim.Adam(model.parameters(), lr=lr)
     wandb.watch(model, criterion, log="all", log_freq=100)
 
-    train_data = torch.load("data/processed/train.pt")
+    train_data = torch.load(f"{input_filepath}/train.pt")
     train_set = torch.utils.data.DataLoader(
         train_data,
         batch_size=hparams["batch_size"],
@@ -78,7 +84,7 @@ def train(profile: int):
         train_loss.append(running_loss / len(train_set))
         wandb.log({"Training loss": train_loss[-1]})
 
-    torch.save(model.state_dict(), "models/trained_model.pt")
+    torch.save(model.state_dict(), f"{output_filepath}/trained_model.pt")
     logger.info("Model saved")
 
 

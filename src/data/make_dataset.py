@@ -7,7 +7,7 @@ from dotenv import find_dotenv, load_dotenv
 from torchvision import datasets, transforms
 
 
-def load_data(root_dir: str, output_filepath: str) -> None:
+def load_data(root_dir: str, output_filepath: str, test_size: float = 0.2) -> None:
     """
     Generate and save train and test dataloader.
 
@@ -18,7 +18,6 @@ def load_data(root_dir: str, output_filepath: str) -> None:
             Returns:
                     None
     """
-    test_size = 0.2
     data_transforms = transforms.Compose(
         [transforms.Resize(224), transforms.ToTensor()]
     )
@@ -48,14 +47,15 @@ def load_data(root_dir: str, output_filepath: str) -> None:
     type=click.Path(exists=True),
 )
 @click.argument("output_filepath", default="data/processed/", type=click.Path())
-def main(input_filepath, output_filepath):
+@click.argument("test_size", default=0.2, type=float)
+def main(input_filepath, output_filepath, test_size):
     """Runs data processing scripts to turn raw data from (../raw) into
     cleaned data ready to be analyzed (saved in ../processed).
     """
     logger = logging.getLogger(__name__)
     logger.info("making final data set from raw data")
 
-    load_data(input_filepath, output_filepath)
+    load_data(input_filepath, output_filepath, test_size)
 
 
 if __name__ == "__main__":
