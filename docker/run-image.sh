@@ -16,8 +16,8 @@ fi
 image="${1}:${tag}"
 echo "Running: $image";
 
-  # --mount type=bind,src="$(pwd)"/data,dst=/app/data \
-  # --mount type=bind,src="$(pwd)"/models,dst=/app/models \
+# --mount type=bind,src="$(pwd)"/data,dst=/app/data \
+# --mount type=bind,src="$(pwd)"/models,dst=/app/models \
 
 docker run -d \
   --privileged \
