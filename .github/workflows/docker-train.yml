@@ -4,6 +4,7 @@ on:
     branches:
         - main
         - develop
+        - gcloud-docker
 jobs:
   build-and-push-to-gcr:
     runs-on: ubuntu-latest
