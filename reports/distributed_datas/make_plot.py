@@ -1,8 +1,11 @@
 import matplotlib.pyplot as plt
-import numpy as np
 import pickle
 
-core = [0,1,2,3,4,5,6,7,8]
+import multiprocessing
+
+nb_core = multiprocessing.cpu_count()
+
+core = [i for i in range(0,nb_core+1)]
 
 with open("reports/distributed_datas/timings", "rb") as fp:   
     timings = pickle.load(fp)
