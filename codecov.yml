@@ -1,3 +1,6 @@
 comment:
   layout: "reach, diff, flags, files"
   behavior: default
+ignore:
+  - "src/models/compare_models.py"  
+  - "src/models/conv_nn_quantized.py"  
