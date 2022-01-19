@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import List
 
 import torch
 from torch import nn, optim
@@ -33,7 +34,7 @@ model_fp32_prepared = torch.quantization.prepare(model_fp32_fused)
 train_data = torch.load("data/processed/train.pt")
 train_set = torch.utils.data.DataLoader(train_data, batch_size=64, shuffle=True)
 
-train_loss = []
+train_loss: List[float] = []
 
 
 def run_model():
@@ -133,4 +134,3 @@ if __name__ == "__main__":
     run_model()
     run_model_quantized()
     run_model_scripted()
-    
