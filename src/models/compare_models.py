@@ -96,6 +96,7 @@ def run_model_quantized():
         f.write(time)
         f.close()
 
+
 if __name__ == "__main__":
     run_model()
     run_model_quantized()
