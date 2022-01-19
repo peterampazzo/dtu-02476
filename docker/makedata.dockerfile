@@ -1,13 +1,9 @@
 # docker build -f makedata.dockerfile . -t data:latest  
-#docker run -d \
-#  --mount type=bind,src="$(pwd)"/data,dst=/app/data \
-#  --mount type=bind,src="$(pwd)"/models,dst=/app/models \
-#  -d data:latest
 
 # Base image
 FROM python:3.7-slim
 
-ARG GCP_KEY
+# ARG GCP_KEY
 
 # install python 
 RUN apt update && \
@@ -34,7 +30,7 @@ RUN apt-get update
 RUN apt-get install -y google-cloud-sdk
 
 WORKDIR /app
-RUN printf '%s' "$GCP_KEY" > /app/gcloud-service-key.json
+# RUN printf '%s' "$GCP_KEY" > /app/gcloud-service-key.json
 
 COPY requirements.txt requirements.txt
 COPY setup.py setup.py
