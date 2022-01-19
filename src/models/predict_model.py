@@ -6,7 +6,6 @@ from conv_nn import ConvNet
 from omegaconf import OmegaConf
 
 
-
 def predict():
     print("Evaluating")
 
@@ -18,7 +17,7 @@ def predict():
     config = OmegaConf.load("config.yaml")
     environ["WANDB_API_KEY"] = config.wandb.api_key
     environ["WANDB_MODE"] = config.wandb.mode
-    #wandb.init(project=config.wandb.project, entity=config.wandb.entity)
+    wandb.init(project=config.wandb.project, entity=config.wandb.entity)
 
     accuracies = []
 
@@ -36,31 +35,9 @@ def predict():
 
     accuracy = sum(accuracies) / len(accuracies)
 
-    #wandb.log({"Test accuracy": accuracy.item()})
+    wandb.log({"Test accuracy": accuracy.item()})
     print(f"Accuracy: {accuracy*100}%")
 
 
 if __name__ == "__main__":
-    # Imports the Google Cloud client library
-    from google.cloud import storage
-    import io
-
-    # Instantiates a client
-    client = storage.Client()
-
-    # Retrieve an existing bucket
-    bucket = client.get_bucket('dtumlopsdata')
-
-    # Then do other things...
-    blob = bucket.get_blob('models/trained_model.pt')
-    buffer = blob.download_as_string()
-    print(type(buffer))
-
-
-    # because model downloaded into string, need to convert it back
-    buffer = io.BytesIO(buffer)
-    state_dict = torch.load(buffer)
-    model = ConvNet(512, 256)
-    model.load_state_dict(state_dict)
-    print(type(model))
-    #predict()
+    predict()
