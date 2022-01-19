@@ -23,7 +23,7 @@ logger.addHandler(logging.StreamHandler(sys.stdout))
 )
 @click.argument("output_filepath", default="models", type=click.Path())
 @click.argument("profile", type=int, default=0)
-def train(filepath: str, output_filepath: str, profile: int):
+def train(input_filepath: str, output_filepath: str, profile: int):
     config = OmegaConf.load("config.yaml")
     logger.info("Training")
     hparams = config["profiles"][profile]
@@ -36,7 +36,7 @@ def train(filepath: str, output_filepath: str, profile: int):
 
     model = ConvNet(out_features1, out_features2)
 
-    train_data = torch.load(f"{filepath}/train.pt")
+    train_data = torch.load(f"{input_filepath}/train.pt")
     train_set = torch.utils.data.DataLoader(
         train_data,
         batch_size=hparams["batch_size"],
