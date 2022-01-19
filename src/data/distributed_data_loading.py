@@ -1,10 +1,9 @@
+import multiprocessing
 import pickle
 import time
 
 import numpy as np
 import torch
-
-import multiprocessing
 
 nb_core = multiprocessing.cpu_count()
 
