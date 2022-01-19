@@ -90,3 +90,6 @@ target/
 /.vs/slnx.sqlite
 
 outputs/
+
+# wandb
+wandb

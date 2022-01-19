@@ -1,5 +1,9 @@
+from os import environ
+
 import torch
+import wandb
 from conv_nn import ConvNet
+from omegaconf import OmegaConf
 
 
 def predict():
@@ -10,6 +14,13 @@ def predict():
     test_data = torch.load("data/processed/test.pt")
     test_set = torch.utils.data.DataLoader(test_data, batch_size=64, shuffle=True)
 
+    config = OmegaConf.load("config.yaml")
+    environ["WANDB_API_KEY"] = config.wandb.api_key
+    environ["WANDB_MODE"] = config.wandb.mode
+    wandb.init(project=config.wandb.project, entity=config.wandb.entity)
+
+    accuracies = []
+
     with torch.no_grad():
         for i, (images, labels) in enumerate(test_set):
 
@@ -19,9 +30,13 @@ def predict():
             top_p, top_class = ps.topk(1, dim=1)
             equals = top_class == labels.view(*top_class.shape)
 
-    accuracy = torch.mean(equals.type(torch.FloatTensor))
+            batch_accuracy = torch.mean(equals.type(torch.FloatTensor))
+            accuracies.append(batch_accuracy)
 
-    print(f"Accuracy: {accuracy.item()*100}%")
+    accuracy = sum(accuracies) / len(accuracies)
+
+    wandb.log({"Test accuracy": accuracy.item()})
+    print(f"Accuracy: {accuracy*100}%")
 
 
 if __name__ == "__main__":
