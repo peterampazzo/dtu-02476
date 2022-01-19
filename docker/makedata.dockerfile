@@ -33,7 +33,7 @@ COPY requirements.txt requirements.txt
 COPY setup.py setup.py
 COPY src/ src/
 COPY config.yaml config.yaml
-COPY docker/entrypoint.sh makedata_entrypoint.sh
+COPY docker/entrypoint.sh entrypoint.sh
 
 RUN pip install -r requirements.txt --no-cache-dir
 RUN pip install -e .
