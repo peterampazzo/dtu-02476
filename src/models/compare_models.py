@@ -11,9 +11,6 @@ from src.models.kornia_trans import transform
 model = ConvNet(1024, 512)
 model_fp32 = ConvNet_quantized(1024, 512)
 
-# model must be set to eval mode for static quantization logic to work
-model_fp32.eval()
-
 # attach a global qconfig, which contains information about what kind
 # of observers to attach. Use 'fbgemm' for server inference and
 # 'qnnpack' for mobile inference. Other quantization configurations such
@@ -35,13 +32,12 @@ model_fp32_prepared = torch.quantization.prepare(model_fp32_fused)
 train_data = torch.load("data/processed/train.pt")
 train_set = torch.utils.data.DataLoader(train_data, batch_size=64, shuffle=True)
 
-criterion = nn.NLLLoss()
-optimizer = optim.Adam(model.parameters(), lr=0.1)
-
 train_loss = []
 
 
 def run_model():
+    criterion = nn.NLLLoss()
+    optimizer = optim.Adam(model.parameters(), lr=0.1)
     with open("reports/quantization/training_not_quantized.txt", "w") as f:
         start_time = datetime.now()
         for e in range(3):
@@ -71,6 +67,8 @@ def run_model():
 
 
 def run_model_quantized():
+    criterion = nn.NLLLoss()
+    optimizer = optim.Adam(model.parameters(), lr=0.1)
     with open("reports/quantization/training_quantized.txt", "w") as f:
         start_time = datetime.now()
         for e in range(3):
@@ -98,6 +96,6 @@ def run_model_quantized():
         f.write(time)
         f.close()
 
-
-run_model()
-run_model_quantized()
+if __name__ == "__main__":
+    run_model()
+    run_model_quantized()
