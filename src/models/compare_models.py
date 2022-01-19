@@ -10,6 +10,7 @@ from src.models.kornia_trans import transform
 # create a model instance
 model = ConvNet(1024, 512)
 model_fp32 = ConvNet_quantized(1024, 512)
+scripted_model = torch.jit.script(model)
 
 # attach a global qconfig, which contains information about what kind
 # of observers to attach. Use 'fbgemm' for server inference and
@@ -40,7 +41,7 @@ def run_model():
     optimizer = optim.Adam(model.parameters(), lr=0.1)
     with open("reports/quantization/training_not_quantized.txt", "w") as f:
         start_time = datetime.now()
-        for e in range(3):
+        for e in range(6):
             running_loss = 0
             print("We are starting the", e, "epochs")
             for i, (images, labels) in enumerate(train_set):
@@ -71,7 +72,7 @@ def run_model_quantized():
     optimizer = optim.Adam(model.parameters(), lr=0.1)
     with open("reports/quantization/training_quantized.txt", "w") as f:
         start_time = datetime.now()
-        for e in range(3):
+        for e in range(6):
             running_loss = 0
             print("We are starting the", e, "epochs")
             for i, (images, labels) in enumerate(train_set):
@@ -97,6 +98,39 @@ def run_model_quantized():
         f.close()
 
 
+def run_model_scripted():
+    criterion = nn.NLLLoss()
+    optimizer = optim.Adam(model.parameters(), lr=0.1)
+    with open("reports/quantization/training_scripted.txt", "w") as f:
+        start_time = datetime.now()
+        for e in range(6):
+            running_loss = 0
+            print("We are starting the", e, "epochs")
+            for i, (images, labels) in enumerate(train_set):
+                optimizer.zero_grad()
+
+                images = transform(images)  # kornia transformations
+
+                log_ps = scripted_model(images)
+                loss = criterion(log_ps, labels)
+                loss.backward()
+                optimizer.step()
+
+                running_loss += loss.item()
+
+                if i > 5:
+                    break
+
+            result = f"Finished epoch: {e+1} - Training loss: {running_loss/len(train_set):5f} \n"
+            f.write(result)
+        end_time = datetime.now()
+        time = "Execution time : {}".format(end_time - start_time)
+        f.write(time)
+        f.close()
+
+
 if __name__ == "__main__":
     run_model()
     run_model_quantized()
+    run_model_scripted()
+    
