@@ -20,6 +20,7 @@ echo "Running: $image";
   # --mount type=bind,src="$(pwd)"/models,dst=/app/models \
 
 docker run -d \
+  --privileged \
   --env-file .env \
   --mount type=bind,src="$(pwd)"/cred.json,dst=/app/gcloud-service-key.json \
   -d $image
