@@ -15,6 +15,6 @@ jobs:
         with:
           gcloud_service_key: ${{ secrets.GCR_KEY }}
           registry: gcr.io
-          project_id: mlops-337909
+          project_id: dtumlops-338418
           image_name: train
           dockerfile: docker/train.dockerfile
