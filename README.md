@@ -54,7 +54,12 @@ Therefore, enable it: `conda activate mlops`.
     ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
     │
     ├── models             <- Trained and serialized models, model predictions, or model summaries
-    │
+    │   └── conv_nn_copy.py        <- Architecture of our model for local deployement
+    │   └── deploy_locally.py        <- Python file scripting the model
+    │   └── deployable_model.pt        <- Scripted model
+    │   └── instructions.txt       <- Torchserve lines to deploy the model locally
+    │   └── model_store        <- Folder to store the deployable_model.mar file
+    │    
     ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
     │                         the creator's initials, and a short `-` delimited description, e.g.
     │                         `1.0-jqp-initial-data-exploration`.
