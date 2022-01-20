@@ -1,13 +1,15 @@
 import io
+from string import ascii_uppercase
 
 import torch
 import torch.nn.functional as F
 import torchvision.transforms.functional as TF
+
 # Imports the Google Cloud client library
 from google.cloud import storage
 from PIL import Image
 from torch import nn
-from string import ascii_uppercase
+
 
 class ConvNet(nn.Module):
     def __init__(self, out_features1: int, out_features2: int):
@@ -61,17 +63,19 @@ def get_data(bucket, path):
 def predict(request):
 
     request_json = request.get_json()
-    if request.args and 'image' in request.args:
-        file_name = request.args.get('image')
-    elif request_json and 'image' in request_json:
-        file_name = request_json['image']
+    if request.args and "image" in request.args:
+        file_name = request.args.get("image")
+    elif request_json and "image" in request_json:
+        file_name = request_json["image"]
     else:
-        file_name = 'A_test.jpg'
+        file_name = "A_test.jpg"
 
-    yield "Fetching model and data"
+    print("Fetching model and data")
     try:
         model_buffer = get_data("dtumlopsdata", "models/trained_model.pt")
-        data_buffer = get_data("dtumlopsdata", "data/raw/asl_alphabet_test/"+file_name)
+        data_buffer = get_data(
+            "dtumlopsdata", "data/raw/asl_alphabet_test/" + file_name
+        )
     except FileNotFoundError as e:
         return str(e)
 
@@ -83,11 +87,16 @@ def predict(request):
     x = TF.resize(image, 224)
     x = TF.to_tensor(x)
     x.unsqueeze_(0)
-    
-    label_map = {k:i for k, i in enumerate(list(ascii_uppercase)+['del', 'nothing', 'space'])}
 
-    yield "Evaluating"
+    label_map = {
+        k: i for k, i in enumerate(list(ascii_uppercase) + ["del", "nothing", "space"])
+    }
+
+    print("Evaluating")
     ps = torch.exp(model(x))
     top_p, top_class = ps.topk(1, dim=1)
 
-    return "The image {} was classified as {}, with probability {:.3f}".format(file_name, label_map[top_class.item()], top_p.item())
+    return "The image {} was classified as '{}',\
+            with probability {:.3f}".format(
+        file_name, label_map[top_class.item()], top_p.item()
+    )
