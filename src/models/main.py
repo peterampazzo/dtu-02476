@@ -4,20 +4,26 @@ import torch
 import wandb
 from conv_nn import ConvNet
 from omegaconf import OmegaConf
-
+# Imports the Google Cloud client library
+from google.cloud import storage
+import io
 
 
 def predict():
     print("Evaluating")
 
+    model_buffer, data_buffer = get_data('dtumlopsdata', 'models/trained_model.pt', 'data/processed/test.pt')
+
+    state_dict = torch.load(model_buffer)
     model = ConvNet(1024, 512)
-    model.load_state_dict(torch.load("models/trained_model.pt"))
-    test_data = torch.load("data/processed/test.pt")
+    model.load_state_dict(state_dict)
+
+    test_data = torch.load(data_buffer)
     test_set = torch.utils.data.DataLoader(test_data, batch_size=64, shuffle=True)
 
     config = OmegaConf.load("config.yaml")
-    environ["WANDB_API_KEY"] = config.wandb.api_key
-    environ["WANDB_MODE"] = config.wandb.mode
+    #environ["WANDB_API_KEY"] = config.wandb.api_key
+    #environ["WANDB_MODE"] = config.wandb.mode
     #wandb.init(project=config.wandb.project, entity=config.wandb.entity)
 
     accuracies = []
@@ -40,11 +46,7 @@ def predict():
     print(f"Accuracy: {accuracy*100}%")
 
 
-if __name__ == "__main__":
-    # Imports the Google Cloud client library
-    from google.cloud import storage
-    import io
-
+def get_data(bucket, model_path, data_path):
     # Instantiates a client
     client = storage.Client()
 
@@ -52,23 +54,22 @@ if __name__ == "__main__":
     bucket = client.get_bucket('dtumlopsdata')
 
     # Then do other things...
-    blob = bucket.get_blob('models/trained_model.pt')
-    buffer = blob.download_as_string()
+    model_blob = bucket.get_blob('models/trained_model.pt')
+    model_buffer = model_blob.download_as_string()
 
     # because model downloaded into string, need to convert it back
-    buffer = io.BytesIO(buffer)
-    state_dict = torch.load(buffer)
-    model = ConvNet(1024, 512)
-    model.load_state_dict(state_dict)
-
+    model_buffer = io.BytesIO(model_buffer)
     print("model loaded")
 
     # Then do other things...
-    blob = bucket.get_blob('data/processed/test.pt')
-    buffer = blob.download_as_string()
+    data_blob = bucket.get_blob('data/processed/test.pt')
+    data_buffer = data_blob.download_as_string()
 
     # because model downloaded into string, need to convert it back
-    buffer = io.BytesIO(buffer)
-    test_data = torch.load(buffer)
-    test_set = torch.utils.data.DataLoader(test_data, batch_size=64, shuffle=True)
+    data_buffer = io.BytesIO(data_buffer)
     print("data loaded")
+
+    return model_buffer, data_buffer
+
+if __name__ == "__main__":
+    predict()
