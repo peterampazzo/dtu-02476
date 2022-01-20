@@ -1,0 +1,8 @@
+- Create the .mar file :
+
+torch-model-archiver --model-name deployable_model --version 1.0 --serialized-file deployable_model.pt --export-path model_store --handler image_classifier
+
+
+- Deploy locally :
+
+torchserve --start --ncs --model-store model_store --models deployable_model=deployable_model.mar
