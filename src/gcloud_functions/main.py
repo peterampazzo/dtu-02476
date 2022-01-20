@@ -7,7 +7,7 @@ import torchvision.transforms.functional as TF
 from google.cloud import storage
 from PIL import Image
 from torch import nn
-
+from string import ascii_uppercase
 
 class ConvNet(nn.Module):
     def __init__(self, out_features1: int, out_features2: int):
@@ -67,9 +67,11 @@ def predict(request):
     x = TF.resize(image, 224)
     x = TF.to_tensor(x)
     x.unsqueeze_(0)
-    # print(x.shape)
+    
+    label_map = {k:i for k, i in enumerate(list(ascii_uppercase)+['del', 'nothing', 'space'])}
 
     print("evaluating")
     ps = torch.exp(model(x))
     top_p, top_class = ps.topk(1, dim=1)
-    return f"the image was classified as {top_class.item()}, with probability {top_p.item()}"
+    
+    return f"the image was classified as {label_map[top_class.item()]}, with probability {top_p.item()}"
