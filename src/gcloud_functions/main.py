@@ -68,12 +68,12 @@ def predict(request):
     else:
         file_name = 'A_test.jpg'
 
-    print("fetching model and data")
+    yield "Fetching model and data"
     try:
         model_buffer = get_data("dtumlopsdata", "models/trained_model.pt")
         data_buffer = get_data("dtumlopsdata", "data/raw/asl_alphabet_test/"+file_name)
     except FileNotFoundError as e:
-        return e
+        return str(e)
 
     state_dict = torch.load(model_buffer)
     model = ConvNet(1024, 512)
@@ -86,7 +86,7 @@ def predict(request):
     
     label_map = {k:i for k, i in enumerate(list(ascii_uppercase)+['del', 'nothing', 'space'])}
 
-    print("evaluating")
+    yield "Evaluating"
     ps = torch.exp(model(x))
     top_p, top_class = ps.topk(1, dim=1)
 
