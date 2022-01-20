@@ -1,11 +1,12 @@
 from os import environ
+from string import ascii_uppercase
 
 import click
 import torch
 import wandb
 from conv_nn import ConvNet
 from omegaconf import OmegaConf
-from string import ascii_uppercase
+
 
 @click.command()
 @click.argument("profile", type=int, default=0)
@@ -23,12 +24,16 @@ def predict(profile: int):
     environ["WANDB_MODE"] = config.wandb.mode
     wandb.init(project=config.wandb.project, entity=config.wandb.entity)
 
-    test_data_at = wandb.Artifact("test_samples_" + str(wandb.run.name), type="predictions")
+    test_data_at = wandb.Artifact(
+        "test_samples_" + str(wandb.run.name), type="predictions"
+    )
     test_table = wandb.Table(columns=["image", "label", "class_prediction"])
 
     accuracies = []
     steps = 0
-    label_map = {k:i for k, i in enumerate(list(ascii_uppercase)+['del', 'nothing', 'space'])}
+    label_map = {
+        k: i for k, i in enumerate(list(ascii_uppercase) + ["del", "nothing", "space"])
+    }
     print_every = 100
 
     with torch.no_grad():
@@ -40,12 +45,16 @@ def predict(profile: int):
 
             output = model.forward(images)
             ps = torch.exp(output)
-            equals = (labels.data == ps.max(1)[1])
+            equals = labels.data == ps.max(1)[1]
 
             batch_accuracy = torch.mean(equals.type(torch.FloatTensor))
             accuracies.append(batch_accuracy)
 
-            test_table.add_data(wandb.Image(images), label_map[int(labels)], label_map[int(ps.max(1)[1])])
+            test_table.add_data(
+                wandb.Image(images),
+                label_map[int(labels)],
+                label_map[int(ps.max(1)[1])],
+            )
 
     accuracy = sum(accuracies) / len(accuracies)
 
