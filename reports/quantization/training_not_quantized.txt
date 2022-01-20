@@ -1,0 +1,7 @@
+Finished epoch: 1 - Training loss: 431772.314762 
+Finished epoch: 2 - Training loss: 28858.765763 
+Finished epoch: 3 - Training loss: 28.029022 
+Finished epoch: 4 - Training loss: 0.192656 
+Finished epoch: 5 - Training loss: 0.101919 
+Finished epoch: 6 - Training loss: 0.096728 
+Execution time : 0:03:49.074886
