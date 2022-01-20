@@ -41,7 +41,7 @@ point on the checklist for the exam.
 
 - [ ] Deployed your model locally using TorchServe
 - [ ] Checked how robust your model is towards data drifting
-- [ ] Deployed your model using `gcp`
+- [x] Deployed your model using `gcp`
 - [ ] Monitored the system of your deployed model
 - [ ] Monitored the performance of your deployed model
 

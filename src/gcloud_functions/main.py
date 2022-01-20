@@ -96,7 +96,6 @@ def predict(request):
     ps = torch.exp(model(x))
     top_p, top_class = ps.topk(1, dim=1)
 
-    return "The image {} was classified as '{}',\
-            with probability {:.3f}".format(
+    return "The image {} was classified as '{}', with probability {:.3f}".format(
         file_name, label_map[top_class.item()], top_p.item()
     )

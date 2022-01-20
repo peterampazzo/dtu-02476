@@ -77,6 +77,10 @@ Therefore, enable it: `conda activate mlops`.
     │   ├── features       <- Scripts to turn raw data into features for modeling
     │   │   └── build_features.py
     │   │
+    │   ├── gcloud_functions       <- Scripts to deploy the model on gcloud
+    │   │   ├── main.py
+    │   │   └── requirements.txt.py
+    │   │
     │   ├── models         <- Scripts to train models and then use trained models to make
     │   │   │                 predictions
     │   │   ├── predict_model.py
