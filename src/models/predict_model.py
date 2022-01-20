@@ -1,42 +1,68 @@
 from os import environ
+from string import ascii_uppercase
 
+import click
 import torch
 import wandb
 from conv_nn import ConvNet
 from omegaconf import OmegaConf
 
 
-def predict():
-    print("Evaluating")
+@click.command()
+@click.argument("profile", type=int, default=0)
+def predict(profile: int):
+    config = OmegaConf.load("config.yaml")
+    out_features1 = config["profiles"][profile]["out_features1"]
+    out_features2 = config["profiles"][profile]["out_features2"]
 
-    model = ConvNet(1024, 512)
+    model = ConvNet(out_features1, out_features2)
     model.load_state_dict(torch.load("models/trained_model.pt"))
     test_data = torch.load("data/processed/test.pt")
-    test_set = torch.utils.data.DataLoader(test_data, batch_size=64, shuffle=True)
+    test_set = torch.utils.data.DataLoader(test_data, batch_size=1, shuffle=True)
 
-    config = OmegaConf.load("config.yaml")
     environ["WANDB_API_KEY"] = config.wandb.api_key
     environ["WANDB_MODE"] = config.wandb.mode
     wandb.init(project=config.wandb.project, entity=config.wandb.entity)
 
+    test_data_at = wandb.Artifact(
+        "test_samples_" + str(wandb.run.name), type="predictions"
+    )
+    test_table = wandb.Table(columns=["image", "label", "class_prediction"])
+
     accuracies = []
+    steps = 0
+    label_map = {
+        k: i for k, i in enumerate(list(ascii_uppercase) + ["del", "nothing", "space"])
+    }
+    print_every = 100
 
     with torch.no_grad():
-        for i, (images, labels) in enumerate(test_set):
+        print("Evaluating")
+        for images, labels in test_set:
+            steps += 1
+            if (steps % print_every == 0) or (steps == len(test_data)):
+                print(f"Evaluating image {steps}/{len(test_data)}")
 
-            print(f"Evaluating Batch {i}/{len(test_data)//64}")
-
-            ps = torch.exp(model(images))
-            top_p, top_class = ps.topk(1, dim=1)
-            equals = top_class == labels.view(*top_class.shape)
+            output = model.forward(images)
+            ps = torch.exp(output)
+            equals = labels.data == ps.max(1)[1]
 
             batch_accuracy = torch.mean(equals.type(torch.FloatTensor))
             accuracies.append(batch_accuracy)
 
+            test_table.add_data(
+                wandb.Image(images),
+                label_map[int(labels)],
+                label_map[int(ps.max(1)[1])],
+            )
+
     accuracy = sum(accuracies) / len(accuracies)
 
     wandb.log({"Test accuracy": accuracy.item()})
-    print(f"Accuracy: {accuracy*100}%")
+    print(f"Test accuracy: {accuracy*100}%")
+
+    test_data_at.add(test_table, "predictions")
+    wandb.run.log_artifact(test_data_at)
 
 
 if __name__ == "__main__":
