@@ -54,13 +54,21 @@ if __name__ == "__main__":
     # Then do other things...
     blob = bucket.get_blob('models/trained_model.pt')
     buffer = blob.download_as_string()
-    print(type(buffer))
-
 
     # because model downloaded into string, need to convert it back
     buffer = io.BytesIO(buffer)
     state_dict = torch.load(buffer)
-    model = ConvNet(512, 256)
+    model = ConvNet(1024, 512)
     model.load_state_dict(state_dict)
-    print(type(model))
-    #predict()
+
+    print("model loaded")
+
+    # Then do other things...
+    blob = bucket.get_blob('data/processed/test.pt')
+    buffer = blob.download_as_string()
+
+    # because model downloaded into string, need to convert it back
+    buffer = io.BytesIO(buffer)
+    test_data = torch.load(buffer)
+    test_set = torch.utils.data.DataLoader(test_data, batch_size=64, shuffle=True)
+    print("data loaded")
