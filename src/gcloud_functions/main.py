@@ -72,4 +72,4 @@ def predict(request):
     print("evaluating")
     ps = torch.exp(model(x))
     top_p, top_class = ps.topk(1, dim=1)
-    return top_p.item(), top_class.item()
+    return f"the image was classified as {top_class.item()}, with probability {top_p.item()}"
