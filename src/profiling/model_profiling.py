@@ -1,10 +1,6 @@
 import torch
-from torch.profiler import (
-    ProfilerActivity,
-    profile,
-    record_function,
-    tensorboard_trace_handler,
-)
+from torch.profiler import (ProfilerActivity, profile, record_function,
+                            tensorboard_trace_handler)
 
 from src.models.conv_nn import ConvNet
 
