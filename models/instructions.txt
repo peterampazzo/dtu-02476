@@ -1,6 +1,6 @@
 - Create the .mar file :
 
-torch-model-archiver --model-name deployable_model --version 1.0 --serialized-file deployable_model.pt --export-path model_store --handler image_classifier
+torch-model-archiver --model-name deployable_model --version 1.0 --serialized-file deployable_model.pt --model-file cnn_model_copy.py --export-path model_store --handler image_classifier
 
 
 - Deploy locally :
