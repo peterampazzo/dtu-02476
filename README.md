@@ -45,6 +45,7 @@ Therefore, enable it: `conda activate mlops`.
     ├── LICENSE
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
     ├── README.md          <- The top-level README for developers using this project.
+    ├── Dockerfile          <- Dockerfiles for building images
     ├── data
     │   ├── external       <- Data from third party sources.
     │   ├── interim        <- Intermediate data that has been transformed.
@@ -67,7 +68,9 @@ Therefore, enable it: `conda activate mlops`.
     ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
     │
     ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
+    │   ├── distributed_datas      <- reports from distributed data loading
+    │   ├── quantization       <- Reports from compare_model.py : txt file with accuracy and computing time
+    │   └── figures        <- Figures from Kornia tranform
     │
     ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
     │                         generated with `pip freeze > requirements.txt`
@@ -77,6 +80,7 @@ Therefore, enable it: `conda activate mlops`.
     │   ├── __init__.py    <- Makes src a Python module
     │   │
     │   ├── data           <- Scripts to download or generate data
+    │   │   ├── distributed_data_loading.py           <- Look at the different data loading
     │   │   └── make_dataset.py
     │   │
     │   ├── features       <- Scripts to turn raw data into features for modeling
@@ -88,6 +92,10 @@ Therefore, enable it: `conda activate mlops`.
     │   │
     │   ├── models         <- Scripts to train models and then use trained models to make
     │   │   │                 predictions
+    │   │   ├── conv_nn.py       <- Main model
+    │   │   ├── quantized_conv_nn.py       <- Quantized model
+    │   │   ├── compare_model.py       <- Comparaisons of the model, quantized model and compiled model
+    │   │   ├── kornia_transform.py       <- Kornia transformations
     │   │   ├── predict_model.py
     │   │   └── train_model.py
     │   │
@@ -96,6 +104,8 @@ Therefore, enable it: `conda activate mlops`.
     │   │
     │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
     │       └── visualize.py
+    │
+    ├── tests         <- pytest running on the repository
     │
     └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
 
