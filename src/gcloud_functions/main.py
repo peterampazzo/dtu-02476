@@ -49,6 +49,9 @@ def get_data(bucket, path):
 
     # Then do other things...
     blob = bucket.get_blob(path)
+    if not blob:
+        raise FileNotFoundError(f"The file {path} was not found in bucket {bucket}")
+
     buffer = blob.download_as_string()
 
     # because model downloaded into string, need to convert it back
@@ -65,8 +68,12 @@ def predict(request):
     else:
         file_name = 'A_test.jpg'
 
-    model_buffer = get_data("dtumlopsdata", "models/trained_model.pt")
-    data_buffer = get_data("dtumlopsdata", "data/raw/asl_alphabet_test/"+file_name)
+    print("fetching model and data")
+    try:
+        model_buffer = get_data("dtumlopsdata", "models/trained_model.pt")
+        data_buffer = get_data("dtumlopsdata", "data/raw/asl_alphabet_test/"+file_name)
+    except FileNotFoundError as e:
+        return e
 
     state_dict = torch.load(model_buffer)
     model = ConvNet(1024, 512)
@@ -83,4 +90,4 @@ def predict(request):
     ps = torch.exp(model(x))
     top_p, top_class = ps.topk(1, dim=1)
 
-    return f"The image {file_name} was classified as {label_map[top_class.item()]}, with probability {top_p.item()}"
+    return "The image {} was classified as {}, with probability {:.3f}".format(file_name, label_map[top_class.item()], top_p.item())
