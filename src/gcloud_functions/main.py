@@ -55,7 +55,7 @@ def get_data(bucket, path):
     return io.BytesIO(buffer)
 
 
-def predict():
+def predict(request):
     model_buffer = get_data("dtumlopsdata", "models/trained_model.pt")
     data_buffer = get_data("dtumlopsdata", "data/raw/asl_alphabet_test/A_test.jpg")
 
