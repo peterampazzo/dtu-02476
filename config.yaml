@@ -1,0 +1,22 @@
+wandb:
+    api_key: ${env:WANDB_API}
+    project: "dtu-02476"
+    entity: "dtumlops"
+    mode: ${env:WANDB_MODE,offline}
+profiles:
+    0:
+        epochs: 2
+        lr: 0.001
+        seed: 123
+        out_features1: 1024
+        out_features2: 512
+        batch_size: 64
+        num_workers: 0
+    1:
+        epochs: 3
+        lr: 0.01
+        seed: 124
+        out_features1: 512
+        out_features2: 256
+        batch_size: 64
+        num_workers: 0
