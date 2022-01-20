@@ -1,10 +1,9 @@
 from os import environ
 
 import torch
+import wandb
 from conv_nn import ConvNet
 from omegaconf import OmegaConf
-
-import wandb
 
 
 def predict():
