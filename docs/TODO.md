@@ -48,8 +48,8 @@ point on the checklist for the exam.
 ## Additional
 
 - [ ] Revisit your initial project description. Did the project turn out as you wanted?
-- [ ] Make sure all group members have a understanding about all parts of the project
-- [ ] Create a presentation explaining your project
-- [ ] Uploaded all your code to github
-- [ ] (extra) Implemented pre-commit hooks for your project repository
+- [x] Make sure all group members have a understanding about all parts of the project
+- [x] Create a presentation explaining your project
+- [x] Uploaded all your code to github
+- [x] (extra) Implemented pre-commit hooks for your project repository
 - [ ] (extra) Used Optuna to run hyperparameter optimization on your model
