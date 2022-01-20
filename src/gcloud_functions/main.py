@@ -56,8 +56,17 @@ def get_data(bucket, path):
 
 
 def predict(request):
+
+    request_json = request.get_json()
+    if request.args and 'image' in request.args:
+        file_name = request.args.get('image')
+    elif request_json and 'image' in request_json:
+        file_name = request_json['image']
+    else:
+        file_name = 'A_test.jpg'
+
     model_buffer = get_data("dtumlopsdata", "models/trained_model.pt")
-    data_buffer = get_data("dtumlopsdata", "data/raw/asl_alphabet_test/A_test.jpg")
+    data_buffer = get_data("dtumlopsdata", "data/raw/asl_alphabet_test/"+file_name)
 
     state_dict = torch.load(model_buffer)
     model = ConvNet(1024, 512)
@@ -73,5 +82,5 @@ def predict(request):
     print("evaluating")
     ps = torch.exp(model(x))
     top_p, top_class = ps.topk(1, dim=1)
-    
-    return f"the image was classified as {label_map[top_class.item()]}, with probability {top_p.item()}"
+
+    return f"The image {file_name} was classified as {label_map[top_class.item()]}, with probability {top_p.item()}"
