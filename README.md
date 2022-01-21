@@ -33,6 +33,14 @@ The data set is a collection of images of hands signing the American Sign Langua
 
 We will use mostly CNN (convolutional neural networks). Our focus will be on the overall architecture and parameters of our network (number of layers, padding, strides, max-pooling etc.).
 
+## API
+
+It is possible to fetch our trained model deployed on Google Cloud Function by calling the following endpoint and specifying the image from the `test` set to predict.
+
+```
+curl "https://europe-west1-dtumlops-338418.cloudfunctions.net/als-inference?image=B_test.jpg"
+```
+
 ## Development
 
 Create a new conda enviroment by running: `conda env create --file=environment.yml`.
